@@ -2,6 +2,7 @@
 import flask
 import jwt
 import mysql.connector
+import recharge_callback
 from datetime import datetime, timedelta
 
 # Create the flask app
@@ -12,7 +13,7 @@ SECRET_KEY = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
 
 
 # Define the validity endpoint
-@app.route("/v1/chat/validity", methods=["POST"])
+@app.route("/v1/validity", methods=["POST"])
 def validity():
     # Get the request data
     data = flask.request.get_json()
@@ -71,7 +72,19 @@ def validity():
     else:
         # Return a fail response
         return flask.jsonify({"validation": "fail"})
-
+    
+# Define the trial endpoint
+@app.route("/v1/trial", methods=["POST"])
+def trial():
+    # Get the request data
+    data = flask.request.get_json()
+    access_key = data["type"]
+    amount = data["amount"]
+    business_model_id = data["business_model_id"]
+    client_reference_id = data["client_reference_id"]
+    email = data["email"]
+    phone = data["phone"]
+    recharge_callback(access_key, amount, business_model_id, client_reference_id, email, phone)
 # Run the app
 if __name__ == "__main__":
     app.run(port=8080)
