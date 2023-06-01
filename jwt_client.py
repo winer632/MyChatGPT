@@ -1,0 +1,32 @@
+# Import the modules
+import requests
+import jwt
+
+# Define the URL and the data
+url = "http://localhost:8080/v1/validity"
+data = {"type": "trial"} # or {"type": "subscription"}
+
+#change this to your api key and query if you are in your validity period
+ACCESS_KEY = "9RWmyu5BYQvKLvuRxpqm5k5hcpzE1U1DzcPrMkJbsdE="
+
+# Define the secret key and the payload for JWT
+secret_key = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
+payload = {
+    "sub": ACCESS_KEY,
+    "iat": 1516239022
+}
+
+# Encode the payload and generate the token
+token = jwt.encode(payload, secret_key, algorithm="HS256")
+
+# Define the headers with the token
+headers = {
+    "Authorization": f"Bearer {token}"
+}
+
+# Send the POST request and get the response
+response = requests.post(url, json=data, headers=headers)
+
+# Print the response status code and data
+print(response.status_code)
+print(response.json())
