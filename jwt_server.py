@@ -30,7 +30,9 @@ def validity():
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
             ACCESS_KEY = payload["sub"]
+            business_type = payload["business_type"]
             print("ACCESS_KEY is ", ACCESS_KEY)
+            print("business_type is ", business_type)
             # Check the type of the request data
             if data["type"] == "trial" or data["type"] == "subscription":
                 # Create connection and cursor objects
@@ -40,28 +42,29 @@ def validity():
                     password="123456",
                     database="gpt"
                 )
-                cursor = connection.cursor()
+                cursor = connection.cursor(dictionary=True)
 
                 # Execute a SQL query
-                sql = "SELECT expiration_date FROM account WHERE UNIX_TIMESTAMP(expiration_date) > UNIX_TIMESTAMP() AND access_key = %s"
-                val = (ACCESS_KEY,)
+                sql = "SELECT expiration_date FROM account WHERE business_type = %s AND UNIX_TIMESTAMP(expiration_date) > UNIX_TIMESTAMP() AND access_key = %s"
+                val = (business_type, ACCESS_KEY,)
                 cursor.execute(sql, val)
                 
 
-                # Fetch all the rows from the result set
-                rows = cursor.fetchall()
+                # Fetch the result
+                row = cursor.fetchone()
                 # Commit the changes to the database and close the cursor and connection objects
                 connection.commit()
                 cursor.close()
                 connection.close()
 
                 # Check if there are any rows in the result set
-                if rows:
+                if row is not None:
+                    expiration_date = row["expiration_date"]
                     # Return a success response
-                    return flask.jsonify({"validation": "success"})
+                    return flask.jsonify({"validation":"success", "expiration_date":expiration_date})
                 else:
-                    # Return false
-                    return flask.jsonify({"validation": "false"})
+                    # Return fail
+                    return flask.jsonify({"validation": "fail"})
             else:
                 # Return a fail response
                 return flask.jsonify({"validation": "fail"})
@@ -87,7 +90,7 @@ def trial():
     recharge_callback(access_key, amount, business_model_id, client_reference_id, email, phone)
 
 # use gunicorn to run in production environment  
-# gunicorn -w 5 -b 127.0.0.1:8080 jwt_server:app
+# gunicorn -w 5 -b 127.0.0.1:2023 jwt_server:app
 # Run the app
 #if __name__ == "__main__":
 #    app.run(port=8080)

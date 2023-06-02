@@ -3,7 +3,7 @@ import requests
 import jwt
 
 # Define the URL and the data
-url = "http://localhost:8080/v1/validity"
+url = "http://20.24.36.19:2023/v1/validity"
 data = {"type": "trial"} # or {"type": "subscription"}
 
 #change this to your api key and query if you are in your validity period
@@ -13,6 +13,7 @@ ACCESS_KEY = "9RWmyu5BYQvKLvuRxpqm5k5hcpzE1U1DzcPrMkJbsdE="
 secret_key = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
 payload = {
     "sub": ACCESS_KEY,
+    "business_type": "basic_chat",
     "iat": 1516239022
 }
 
