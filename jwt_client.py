@@ -3,7 +3,8 @@ import requests
 import jwt
 
 # Define the URL and the data
-url = "http://20.24.36.19:2023/v1/validity"
+# url = "http://20.24.36.19:2023/v1/validity"
+url = "http://service.bizoe.tech/v1/validity"
 data = {"type": "trial"} # or {"type": "subscription"}
 
 #change this to your api key and query if you are in your validity period

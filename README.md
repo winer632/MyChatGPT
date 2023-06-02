@@ -7,6 +7,7 @@ pip install -r requirements.txt
 
 
 # run jwt_server with this command on Azure virtual machine
+# client will use http://service.bizoe.tech/v1/xxx to access the API jwt_server provided
 
-gunicorn -w 5 -b :2023 jwt_server:app
+azureuser@MyChatGPT:~/gpt/MyChatGPT$ sudo gunicorn -w 5 -b :80 jwt_server:app
 
