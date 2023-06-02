@@ -4,3 +4,4 @@ PyJWT==2.7.0
 mysql-connector-python==8.0.33
 mysql==0.0.3
 mysqlclient==2.1.1
+stripe==
