@@ -76,9 +76,9 @@ def validity():
         # Return a fail response
         return flask.jsonify({"validation": "fail"})
     
-# Define the trial endpoint
-@app.route("/v1/trial", methods=["POST"])
-def trial():
+# Define the recharge endpoint
+@app.route("/v1/recharge", methods=["POST"])
+def recharge():
     # Get the request data
     data = flask.request.get_json()
     access_key = data["type"]
