@@ -85,6 +85,9 @@ def trial():
     email = data["email"]
     phone = data["phone"]
     recharge_callback(access_key, amount, business_model_id, client_reference_id, email, phone)
+
+# use gunicorn to run in production environment  
+# gunicorn -w 5 -b 127.0.0.1:8080 jwt_server:app
 # Run the app
-if __name__ == "__main__":
-    app.run(port=8080)
+#if __name__ == "__main__":
+#    app.run(port=8080)
