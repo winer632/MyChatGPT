@@ -75,21 +75,6 @@ def validity():
     else:
         # Return a fail response
         return flask.jsonify({"validation": "fail"})
-    
-# Define the recharge endpoint
-@app.route("/v1/recharge", methods=["POST"])
-def recharge():
-    # Get the request data
-    # https://stripe.com/docs/api/checkout/sessions/create#create_checkout_session-line_items
-    data = flask.request.get_json()
-    access_key = data["customer"] # customer ID of an existing Customer, if one exists.
-    amount = data["amount"] # line_items.quantity When set, provides configuration for this item’s quantity to be adjusted by the customer during Checkout.
-    business_model_id = data["business_model_id"] # line_items.price_data Data used to generate a new Price object inline. One of price or price_data is required.
-    client_reference_id = data["client_reference_id"] # client_reference_id A unique string to reference the Checkout Session. 
-    email = data["email"]
-    phone = data["phone"]
-    currency = data["currency"] # currency The currency of the Checkout Session. Required if using line_items.price_data. Must match the currency associated with your Stripe account.
-    recharge_callback(access_key, amount, business_model_id, client_reference_id, email, phone)
 
 # use gunicorn to run in production environment  
 # gunicorn -w 5 -b 127.0.0.1:2023 jwt_server:app
