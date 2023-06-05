@@ -35,6 +35,9 @@ def webhook():
     access_key = payload['paymentIntentId']
     amount = payload['amount']
     business_model_id = payload['business_model_id']
+    print("access_key is ", access_key)
+    print("amount is ", amount)
+    print("business_model_id is ", business_model_id)
     recharge_callback(access_key, amount, business_model_id)
 
 

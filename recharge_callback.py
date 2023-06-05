@@ -82,11 +82,6 @@ def recharge_callback(access_key, amount, business_model_id):
         cursor.execute(sql, val)
     else:
         print("access_key does not exist")
-
-        # Generate a 32-byte random API key and encode it using URL-safe base-64 encoding
-        key = secrets.token_bytes(32)
-        access_key = base64.urlsafe_b64encode(key)
-        print("access_key is ", access_key.decode("utf-8"))
         # Calculate the expiration date by adding the validity period to the current date and time
         expiration_date = datetime.now() + timedelta(seconds=add_validity_time)
         # Insert a new record into the table with the generated API key, recharge amount, expiration date, and last login time
@@ -102,4 +97,4 @@ def recharge_callback(access_key, amount, business_model_id):
     
 
 # Call the function with a sample recharge amount of 20 RMB
-recharge_callback('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3)
+# recharge_callback('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3)
