@@ -62,7 +62,7 @@ def validity():
                 if row is not None:
                     expiration_date = row["expiration_date"]
                     # Return a success response
-                    return flask.jsonify({"validation":"success", "message":"valid until"+expiration_date})
+                    return flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
                 else:
                     # Return fail
                     return flask.jsonify({"validation": "fail", "message": "No valid subscription found"})

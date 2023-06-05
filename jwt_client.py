@@ -8,7 +8,7 @@ url = "https://service.bizoe.tech/v1/validity"
 data = {"type": "trial"} # or {"type": "subscription"}
 
 #change this to your api key and query if you are in your validity period
-ACCESS_KEY = "jfwkgMx7xK8kZ0U4u2NZvd_-5iVdmRxtU5ux1DAKQ3o="
+ACCESS_KEY = "ajbieaef23245678"
 
 # Define the secret key and the payload for JWT
 secret_key = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
@@ -32,7 +32,11 @@ headers = {
 
 # Send the POST request and get the response
 response = requests.post(url, json=data, headers=headers, verify=False)
+if response.status_code == 200 and response.headers['Content-Type'] == 'application/json':
+    # Print the response status code and data
+    print(response.status_code)
+    print(response.json())
+else:
+    print("Something went wrong with the request")
+    print(response.text)
 
-# Print the response status code and data
-print(response.status_code)
-print(response.json())
