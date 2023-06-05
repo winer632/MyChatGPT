@@ -62,20 +62,20 @@ def validity():
                 if row is not None:
                     expiration_date = row["expiration_date"]
                     # Return a success response
-                    return flask.jsonify({"validation":"success", "expiration_date":expiration_date})
+                    return flask.jsonify({"validation":"success", "message":"valid until"+expiration_date})
                 else:
                     # Return fail
-                    return flask.jsonify({"validation": "fail"})
+                    return flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
             else:
                 # Return a fail response
-                return flask.jsonify({"validation": "fail"})
+                return flask.jsonify({"validation": "fail", "message": "Invalid request type, should be trial or subscription"})
             
         except jwt.InvalidTokenError:
             # Return a fail response
-            return flask.jsonify({"validation": "fail"})
+            return flask.jsonify({"validation": "fail", "message": "Invalid token"})
     else:
         # Return a fail response
-        return flask.jsonify({"validation": "fail"})
+        return flask.jsonify({"validation": "fail", "message": "Missing authorization header"})
     
 @app.route('/v1/recharge', methods=['POST'])
 def recharge():
@@ -87,7 +87,7 @@ def recharge():
     print("access_key is ", access_key)
     print("amount is ", amount)
     print("business_model_id is ", business_model_id)
-    recharge_callback(access_key, amount, business_model_id)
+    recharge_callback.recharge_callback_func(access_key, amount, business_model_id)
 
 
     return jsonify(success=True)

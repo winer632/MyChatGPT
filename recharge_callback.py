@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 
 # Define a function that takes the recharge amount as an argument
-def recharge_callback(access_key, amount, business_model_id):
+def recharge_callback_func(access_key, amount, business_model_id):
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
@@ -84,9 +84,15 @@ def recharge_callback(access_key, amount, business_model_id):
         print("access_key does not exist")
         # Calculate the expiration date by adding the validity period to the current date and time
         expiration_date = datetime.now() + timedelta(seconds=add_validity_time)
+        print("business_model_id is ", business_model_id)
+        print("business_type is ", business_type)
+        print("access_key is ", access_key)
+        print("amount is ", amount)
+        print("expiration_date is ", expiration_date)
+        print("last_login_time is ", datetime.now())
         # Insert a new record into the table with the generated API key, recharge amount, expiration date, and last login time
-        sql = "INSERT INTO account (business_model_id, business_type, access_key, recharge_amount, expiration_date, last_login_time, \
-            ) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO account (business_model_id, business_type, access_key, recharge_amount, expiration_date, last_login_time) \
+             VALUES (%s, %s, %s, %s, %s, %s)"
         val = (business_model_id, business_type, access_key, amount, expiration_date, datetime.now(),)
         cursor.execute(sql, val)
 
@@ -97,4 +103,4 @@ def recharge_callback(access_key, amount, business_model_id):
     
 
 # Call the function with a sample recharge amount of 20 RMB
-# recharge_callback('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3)
+# recharge_callback_func('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3)
