@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 
 # Define a function that takes the recharge amount as an argument
-def recharge_callback(access_key, amount, business_model_id, client_reference_id, email, phone):
+def recharge_callback(access_key, amount, business_model_id):
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
@@ -91,8 +91,8 @@ def recharge_callback(access_key, amount, business_model_id, client_reference_id
         expiration_date = datetime.now() + timedelta(seconds=add_validity_time)
         # Insert a new record into the table with the generated API key, recharge amount, expiration date, and last login time
         sql = "INSERT INTO account (business_model_id, business_type, access_key, recharge_amount, expiration_date, last_login_time, \
-            client_reference_id, email, phone) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (business_model_id, business_type, access_key, amount, expiration_date, datetime.now(), client_reference_id, email, phone,)
+            ) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (business_model_id, business_type, access_key, amount, expiration_date, datetime.now(),)
         cursor.execute(sql, val)
 
     # Commit the changes to the database and close the cursor and connection objects
@@ -102,4 +102,4 @@ def recharge_callback(access_key, amount, business_model_id, client_reference_id
     
 
 # Call the function with a sample recharge amount of 20 RMB
-recharge_callback('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3,"123456","abc@def.com","12345678901")
+recharge_callback('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3)
