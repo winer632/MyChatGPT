@@ -12,4 +12,4 @@ pip install -r requirements.txt
 # Run gunicorn with HTTPS on port 443
 # Note that port 443 is a privileged port, so you may need to run the command with sudo or as root user
 
-gunicorn -w 5 -b 0.0.0.0:443 --certfile openssl/server.crt --keyfile openssl/server.key jwt_server:app
+sudo gunicorn -w 5 -b 0.0.0.0:443 --certfile openssl/server.crt --keyfile openssl/server.key jwt_server:app

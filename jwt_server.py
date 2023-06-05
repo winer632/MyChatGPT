@@ -78,7 +78,7 @@ def validity():
         return flask.jsonify({"validation": "fail"})
     
 @app.route('/v1/recharge', methods=['POST'])
-def webhook():
+def recharge():
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload['paymentIntentId']
