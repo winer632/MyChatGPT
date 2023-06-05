@@ -16,66 +16,41 @@ SECRET_KEY = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
 # Define the validity endpoint
 @app.route("/v1/validity", methods=["POST"])
 def validity():
-    # Get the request data
-    data = flask.request.get_json()
+    # Get the payload as a JSON object
+    payload = request.get_json()
+    access_key = payload["access_key"]
+    print("access_key is ", access_key)
+    # Create connection and cursor objects
+    connection = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="123456",
+        database="gpt"
+    )
+    cursor = connection.cursor(dictionary=True)
 
-    # Get the authorization header
-    auth_header = flask.request.headers.get("Authorization")
+    # Execute a SQL query
+    sql = "SELECT expiration_date FROM account WHERE UNIX_TIMESTAMP(expiration_date) > UNIX_TIMESTAMP() AND access_key = %s"
+    val = (access_key,)
+    cursor.execute(sql, val)
+    
 
-    # Check if the header is valid
-    if auth_header and auth_header.startswith("Bearer "):
-        # Extract the token from the header
-        token = auth_header.split(" ")[1]
+    # Fetch the result
+    row = cursor.fetchone()
+    # Commit the changes to the database and close the cursor and connection objects
+    connection.commit()
+    cursor.close()
+    connection.close()
 
-        # Decode the token and verify the payload
-        try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            ACCESS_KEY = payload["sub"]
-            business_type = payload["business_type"]
-            print("ACCESS_KEY is ", ACCESS_KEY)
-            print("business_type is ", business_type)
-            # Check the type of the request data
-            if data["type"] == "trial" or data["type"] == "subscription":
-                # Create connection and cursor objects
-                connection = mysql.connector.connect(
-                    host="localhost",
-                    user="root",
-                    password="123456",
-                    database="gpt"
-                )
-                cursor = connection.cursor(dictionary=True)
-
-                # Execute a SQL query
-                sql = "SELECT expiration_date FROM account WHERE business_type = %s AND UNIX_TIMESTAMP(expiration_date) > UNIX_TIMESTAMP() AND access_key = %s"
-                val = (business_type, ACCESS_KEY,)
-                cursor.execute(sql, val)
-                
-
-                # Fetch the result
-                row = cursor.fetchone()
-                # Commit the changes to the database and close the cursor and connection objects
-                connection.commit()
-                cursor.close()
-                connection.close()
-
-                # Check if there are any rows in the result set
-                if row is not None:
-                    expiration_date = row["expiration_date"]
-                    # Return a success response
-                    return flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
-                else:
-                    # Return fail
-                    return flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
-            else:
-                # Return a fail response
-                return flask.jsonify({"validation": "fail", "message": "Invalid request type, should be trial or subscription"})
-            
-        except jwt.InvalidTokenError:
-            # Return a fail response
-            return flask.jsonify({"validation": "fail", "message": "Invalid token"})
+    # Check if there are any rows in the result set
+    if row is not None:
+        expiration_date = row["expiration_date"]
+        # Return a success response
+        return flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
     else:
-        # Return a fail response
-        return flask.jsonify({"validation": "fail", "message": "Missing authorization header"})
+        # Return fail
+        return flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
+
     
 @app.route('/v1/recharge', methods=['POST'])
 def recharge():
