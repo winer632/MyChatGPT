@@ -4,7 +4,7 @@ import jwt
 
 # Define the URL and the data
 # url = "http://20.24.36.19:2023/v1/validity"
-url = "http://service.bizoe.tech/v1/validity"
+url = "https://service.bizoe.tech/v1/validity"
 data = {"type": "trial"} # or {"type": "subscription"}
 
 #change this to your api key and query if you are in your validity period
@@ -23,6 +23,7 @@ payload = {
 
 # Encode the payload and generate the token
 token = jwt.encode(payload, secret_key, algorithm="HS256")
+print("token is ", token)
 
 # Define the headers with the token
 headers = {
@@ -30,7 +31,7 @@ headers = {
 }
 
 # Send the POST request and get the response
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, json=data, headers=headers, verify=False)
 
 # Print the response status code and data
 print(response.status_code)
