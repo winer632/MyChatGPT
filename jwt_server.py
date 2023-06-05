@@ -4,6 +4,7 @@ import jwt
 import mysql.connector
 import recharge_callback
 from datetime import datetime, timedelta
+from flask import Flask, jsonify, request
 
 # Create the flask app
 app = flask.Flask(__name__)
@@ -75,6 +76,21 @@ def validity():
     else:
         # Return a fail response
         return flask.jsonify({"validation": "fail"})
+    
+@app.route('/v1/recharge', methods=['POST'])
+def webhook():
+    # Get the payload as a JSON object
+    payload = request.get_json()
+    access_key = payload['paymentIntentId']
+    amount = payload['amount']
+    business_model_id = payload['business_model_id']
+    print("access_key is ", access_key)
+    print("amount is ", amount)
+    print("business_model_id is ", business_model_id)
+    recharge_callback(access_key, amount, business_model_id)
+
+
+    return jsonify(success=True)
 
 # use gunicorn to run in production environment  
 # gunicorn -w 5 -b 127.0.0.1:2023 jwt_server:app
