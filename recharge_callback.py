@@ -19,7 +19,7 @@ def recharge_callback_func(access_key, amount, product_id):
     cursor = connection.cursor(dictionary=True)
 
     # Select the unit_fee column from the table
-    sql = "SELECT business_type, subscription_type, unit_fee, unit_validity_time FROM product where id = %s"
+    sql = "SELECT business_type, subscription_type, unit_fee, unit_validity_time FROM product where product_id = %s"
     val = (product_id,)
     cursor.execute(sql, val)
 
