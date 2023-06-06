@@ -18,7 +18,7 @@ def test_validity():
 # Define a method for testing the recharge endpoint
 def test_recharge():
     # Define a payload with a valid payment intent ID, amount and business model ID
-    payload = {"paymentIntentId": "some_valid_id", "amount": 1000, "business_model_id": 1}
+    payload = {"paymentIntentId": "some_valid_id", "amount": 1000, "product_id": 1}
     # Make a POST request to the recharge endpoint
     response = requests.post(BASE_URL + "/v1/recharge", json=payload, verify=False)
     print(response.json())

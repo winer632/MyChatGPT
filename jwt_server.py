@@ -58,11 +58,11 @@ def recharge():
     payload = request.get_json()
     access_key = payload['paymentIntentId']
     amount = payload['amount']
-    business_model_id = payload['business_model_id']
+    product_id = payload['product_id']
     print("access_key is ", access_key)
     print("amount is ", amount)
-    print("business_model_id is ", business_model_id)
-    recharge_callback.recharge_callback_func(access_key, amount, business_model_id)
+    print("product_id is ", product_id)
+    recharge_callback.recharge_callback_func(access_key, amount, product_id)
 
 
     return jsonify(success=True)
