@@ -70,25 +70,6 @@ def recharge():
 
 
 
-@app.route("/upload", methods=["POST"])
-def upload_file():
-  # get the file from the request
-  file = request.files["file"]
-
-  # check if the file is valid
-  if file:
-    # get the secure file name
-    filename = secure_filename(file.filename)
-
-    # save the file to the /.well-known/pki-validation/ folder
-    file.save("./.well-known/pki-validation/" + filename)
-
-    # redirect to some success page
-    return redirect("/success")
-  else:
-    # return some error message
-    return "No file selected"
-
 
 # use gunicorn to run in production environment  
 # gunicorn -w 5 -b 127.0.0.1:2023 jwt_server:app
