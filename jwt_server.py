@@ -4,7 +4,7 @@ import mysql.connector
 import recharge_callback
 from datetime import datetime, timedelta
 from flask import Flask, jsonify, request
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect
 from werkzeug.utils import secure_filename
 
 # Create the flask app
@@ -89,10 +89,6 @@ def upload_file():
     # return some error message
     return "No file selected"
 
-@app.route("/")
-def index():
-  # render the upload.html template
-  return render_template("upload.html")
 
 # use gunicorn to run in production environment  
 # gunicorn -w 5 -b 127.0.0.1:2023 jwt_server:app
