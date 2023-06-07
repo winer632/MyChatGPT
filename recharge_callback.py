@@ -55,31 +55,7 @@ def recharge_callback_func(access_key, amount, product_id):
     row = cursor.fetchone()
     if row is not None:
         access_key = row["access_key"]
-        print("access_key already exists ", access_key)        
-        # Select the recharge_amount column from the table
-        # sql = "SELECT expiration_date, recharge_amount FROM account where access_key = %s"
-        # val = (access_key,)
-        # cursor.execute(sql, val)
-        # row = cursor.fetchone()
-        # if row is not None:
-        #     expiration_date = row["expiration_date"]
-        #     recharge_amount = row["recharge_amount"]
-        #     print("expiration_date is ", expiration_date)
-        #     print("recharge_amount is ", recharge_amount)
-        # else:
-        #     print("No row found")
-        #     expiration_date = datetime.now()
-        #     recharge_amount = 0
-        # accumulate_amount = amount+recharge_amount
-        # print("history amount is ", recharge_amount)
-        # print("current amount is ", amount)
-        # print("accumulate_amount is ", accumulate_amount)
-        # expiration_date = expiration_date + timedelta(seconds=add_validity_time)
-        # print("new expiration_date is ", expiration_date)
-        # # Update the record in the table with the new expiration date and recharge amount
-        # sql = "UPDATE account set expiration_date = %s, recharge_amount=%s where access_key = %s"
-        # val = (expiration_date, accumulate_amount, access_key,)
-        # cursor.execute(sql, val)
+        print("access_key already exists ", access_key)
     else:
         print("access_key does not exist")
         # Calculate the expiration date by adding the validity period to the current date and time
@@ -100,7 +76,3 @@ def recharge_callback_func(access_key, amount, product_id):
     connection.commit()
     cursor.close()
     connection.close()
-    
-
-# Call the function with a sample recharge amount of 20 RMB
-# recharge_callback_func('A9I67ijyubRhiJ6ZlXiR4zwBGmlI9TN_xbKxlnICfyA=',200,3)

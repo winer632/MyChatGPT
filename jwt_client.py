@@ -8,7 +8,7 @@ BASE_URL = "https://service.bizoe.tech/"
 # Define a method for testing the validity endpoint
 def test_validity():
     # Define a payload with a valid access key
-    payload = {"access_key": "some_valid_id"}
+    payload = {"access_key": "pi_3NG9coCMTeU4V8Iq04PVqVP4"}
     # Make a POST request to the validity endpoint
     response = requests.post(BASE_URL + "/v1/validity", json=payload, verify=False)
     print(response.json())
