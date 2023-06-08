@@ -15,8 +15,18 @@ SECRET_KEY = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
 
 
 # Define the validity endpoint
-@app.route("/v1/validity", methods=["POST"])
+@app.route("/v1/validity", methods=["POST", "OPTIONS"])
 def validity():
+    # Check if the request is an OPTIONS request
+    if request.method == "OPTIONS":
+        # Create an empty response object
+        response = flask.Response("")
+        # Set the CORS headers
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        # Return the response object
+        return response
+
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload["access_key"]
@@ -63,8 +73,18 @@ def validity():
         return response
 
     
-@app.route('/v1/recharge', methods=['POST'])
+@app.route('/v1/recharge', methods=['POST', 'OPTIONS'])
 def recharge():
+    # Check if the request is an OPTIONS request
+    if request.method == "OPTIONS":
+        # Create an empty response object
+        response = flask.Response("")
+        # Set the CORS headers
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        # Return the response object
+        return response
+
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload['paymentIntentId']

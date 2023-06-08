@@ -12,4 +12,9 @@ pip install -r requirements.txt
 # Run gunicorn with HTTPS on port 443
 # Note that port 443 is a privileged port, so you may need to run the command with sudo or as root user
 
-sudo gunicorn -w 5 -b 0.0.0.0:443 --certfile openssl/server.crt --keyfile openssl/server.key jwt_server:app
+# local
+sudo gunicorn -w 5 -b 0.0.0.0:443 --certfile openssl/ssl-bundle.crt --keyfile openssl/service.bizoe.tech.key jwt_server:app
+
+# production
+/usr/bin/sudo /usr/local/bin/gunicorn -w 5 -b 0.0.0.0:443 --pid /var/run/gunicorn.pid --name myapp --chdir /home/azureuser/gpt/MyChatGPT --certfile /home/azureuser/gpt/MyChatGPT/openssl/ssl-bundle.crt --keyfile /home/azureuser/gpt/MyChatGPT/openssl/service.bizoe.tech.key jwt_server:app
+
