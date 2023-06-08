@@ -24,6 +24,7 @@ def validity():
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        response.headers["Access-Control-Allow-Headers"] = "content-type"
         # Return the response object
         return response
 
@@ -61,6 +62,7 @@ def validity():
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        response.headers["Access-Control-Allow-Headers"] = "content-type"
         # Return the response object
         return response
     else:
@@ -69,6 +71,7 @@ def validity():
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        response.headers["Access-Control-Allow-Headers"] = "content-type"
         # Return the response object
         return response
 
