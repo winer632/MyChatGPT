@@ -82,6 +82,7 @@ def recharge():
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
         # Return the response object
         return response
 
@@ -100,6 +101,7 @@ def recharge():
     # Set the CORS headers
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
     # Return the response object
     return response
 
