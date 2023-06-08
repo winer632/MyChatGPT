@@ -46,11 +46,21 @@ def validity():
     # Check if there are any rows in the result set
     if row is not None:
         expiration_date = row["expiration_date"]
-        # Return a success response
-        return flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
+        # Create a response object
+        response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
+        # Set the CORS headers
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        # Return the response object
+        return response
     else:
-        # Return fail
-        return flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
+        # Create a response object
+        response = flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
+        # Set the CORS headers
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+        # Return the response object
+        return response
 
     
 @app.route('/v1/recharge', methods=['POST'])
@@ -65,14 +75,11 @@ def recharge():
     print("product_id is ", product_id)
     recharge_callback.recharge_callback_func(access_key, amount, product_id)
 
+    # Create a response object
+    response = jsonify(success=True)
+    # Set the CORS headers
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
+    # Return the response object
+    return response
 
-    return jsonify(success=True)
-
-
-
-
-# use gunicorn to run in production environment  
-# gunicorn -w 5 -b 127.0.0.1:2023 jwt_server:app
-# Run the app
-#if __name__ == "__main__":
-#    app.run(port=8080)
