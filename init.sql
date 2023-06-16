@@ -30,13 +30,13 @@ CREATE TABLE product (
 # 4 CNY for 15 minutes, 20 CNY for 1 month, 200 CNY for 1 year
 
 # product environment
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DnzwF8ZK5VJ0", "basic_chat", "trial", 400, 900);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DnzwF8ZK5VJ0", "basic_chat", "trial", 400, 86400);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fjN9tEctwBk9", "basic_chat", "trial", 1000, 604800);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fjBZzo9dChqI", "basic_chat", "per_month", 2000, 2592000);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fiOSsJRrZUjU", "basic_chat", "per_year", 20000, 31536000);
 
 # test environment
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DmW5dfkzy20h", "basic_chat", "trial", 400, 900);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DmW5dfkzy20h", "basic_chat", "trial", 400, 86400);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DlrcVr01dqOX", "basic_chat", "trial", 1000, 604800);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22ExVNaXKhT9F", "basic_chat", "per_month", 2000, 2592000);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22Dzh2L54hASR", "basic_chat", "per_year", 20000, 31536000);
