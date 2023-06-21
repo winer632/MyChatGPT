@@ -49,7 +49,7 @@ def recharge_callback_func(access_key, amount, product_id):
 
     # Select the access_key column from the table
     sql = "SELECT access_key FROM account where access_key = %s"
-    val = (access_key)
+    val = (access_key,)
     cursor.execute(sql, val)
     # fetch all rows
     row = cursor.fetchone()

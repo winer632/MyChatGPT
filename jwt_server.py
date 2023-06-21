@@ -42,7 +42,7 @@ def validity():
     cursor = connection.cursor(dictionary=True)
 
     sql = "SELECT expiration_date FROM account USE INDEX (access_key_expiration_date) WHERE expiration_date > NOW() AND access_key = %s"
-    val = (access_key)
+    val = (access_key,)
     cursor.execute(sql, val)
 
 
