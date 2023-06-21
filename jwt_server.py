@@ -31,7 +31,7 @@ def auth():
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload["access_key"]
-    print("access_key is ", access_key)
+    print("[/v1/auth] access_key is ", access_key)
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
@@ -125,7 +125,7 @@ def validity():
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload["access_key"]
-    print("access_key is ", access_key)
+    print("[/v1/validity] access_key is ", access_key)
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
