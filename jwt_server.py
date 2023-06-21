@@ -141,7 +141,7 @@ def validity():
     )
     cursor = connection.cursor(dictionary=True)
 
-    sql = "SELECT expiration_date FROM account USE INDEX (access_key_expiration_date) WHERE expiration_date > NOW() AND access_key = %s"
+    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
     val = (access_key,)
     cursor.execute(sql, val)
 
