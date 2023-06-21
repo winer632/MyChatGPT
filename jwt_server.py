@@ -11,30 +11,28 @@ from werkzeug.utils import secure_filename
 # default value is 60
 chat_count_setting = 60
 
-def init():
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="123456",
-        database="gpt"
-    )
-    cursor = connection.cursor(dictionary=True)
+connection = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="123456",
+    database="gpt"
+)
+cursor = connection.cursor(dictionary=True)
 
-    sql = "SELECT chat_count_setting FROM settings"
+sql = "SELECT chat_count_setting FROM settings"
 
-    cursor.execute(sql)
-    row = cursor.fetchone()
-    # Check if there are any rows in the result set
-    if row is not None:
-        chat_count_setting = row["chat_count_setting"]
-        print("[init] chat_count_setting is ", chat_count_setting)
+cursor.execute(sql)
+row = cursor.fetchone()
+# Check if there are any rows in the result set
+if row is not None:
+    chat_count_setting = row["chat_count_setting"]
+    print("[init] chat_count_setting is ", chat_count_setting)
 
-    # Close the cursor and connection objects
-    cursor.close()
-    connection.close()
+# Close the cursor and connection objects
+cursor.close()
+connection.close()
 
 
-init()
 print("[after init] chat_count_setting is ", chat_count_setting)
 
 # Create the flask app
