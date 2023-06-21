@@ -12,7 +12,6 @@ CREATE TABLE account (
   phone varchar(80),
   reserved_1 varchar(80),
   reserved_2 varchar(80),
-  INDEX access_key_expiration_date (access_key, expiration_date),
   INDEX access_key (access_key)
 );
 
