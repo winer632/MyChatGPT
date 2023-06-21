@@ -15,8 +15,8 @@ SECRET_KEY = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
 
 
 # Define the validity endpoint
-@app.route("/v1/validity", methods=["POST", "OPTIONS"])
-def validity():
+@app.route("/v1/auth", methods=["POST", "OPTIONS"])
+def auth():
     # Check if the request is an OPTIONS request
     if request.method == "OPTIONS":
         # Create an empty response object
@@ -109,8 +109,8 @@ def recharge():
 
 
 # Define the validity endpoint
-@app.route("/v1/settings/validity", methods=["POST", "OPTIONS"])
-def settings_validity():
+@app.route("/v1/validity", methods=["POST", "OPTIONS"])
+def validity():
     # Check if the request is an OPTIONS request
     if request.method == "OPTIONS":
         # Create an empty response object
