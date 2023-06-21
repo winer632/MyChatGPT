@@ -26,7 +26,7 @@ row = cursor.fetchone()
 # Check if there are any rows in the result set
 if row is not None:
     chat_count_setting = row["chat_count_setting"]
-    print("[init] chat_count_setting is ", chat_count_setting)
+    print("[settings] chat_count_setting is ", chat_count_setting)
 
 # Close the cursor and connection objects
 cursor.close()
