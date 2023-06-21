@@ -77,7 +77,7 @@ def auth():
         chat_count = row["chat_count"]
         if chat_count > chat_count_setting:
             print("[/v1/auth] No quota today. chat_count is ", chat_count, " chat_count_setting is ", chat_count_setting)
-            response = flask.jsonify({"validation": "fail", "message": "No quota today"})
+            response = flask.jsonify({"validation": "insufficient quota", "message": "No quota today"})
             # Set the CORS headers
             response.headers["Access-Control-Allow-Origin"] = "*"
             response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
