@@ -10,9 +10,6 @@ from werkzeug.utils import secure_filename
 # Create the flask app
 app = flask.Flask(__name__)
 
-# Define the secret key for JWT
-SECRET_KEY = "vs63TVu7HD_8ofiqBKZZ-D4sDqTo1003x05tS7o5j6c"
-
 
 # Define the validity endpoint
 @app.route("/v1/auth", methods=["POST", "OPTIONS"])
