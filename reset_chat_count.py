@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+import os
+print(os.environ)
+
 import mysql.connector
 
 connection = mysql.connector.connect(
