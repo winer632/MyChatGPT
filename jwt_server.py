@@ -154,7 +154,7 @@ def validity():
 
     # Check if there are any rows in the result set
     if row is not None:
-        print("[/v1/auth] access_key is ", access_key, " auth success")
+        print("[/v1/validity] access_key is ", access_key, " validation success")
         expiration_date = row["expiration_date"]
         # Create a response object
         response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
@@ -165,7 +165,7 @@ def validity():
         # Return the response object
         return response
     else:
-        print("[/v1/auth] access_key is ", access_key, " auth fail")
+        print("[/v1/validity] access_key is ", access_key, " validation fail")
         # Create a response object
         response = flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
         # Set the CORS headers
