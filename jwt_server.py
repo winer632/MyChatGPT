@@ -109,7 +109,7 @@ def recharge():
 
 
 # Define the validity endpoint
-@app.route("/v1/settings/validity", methods=["POST", "OPTIONS"])
+@app.route("/v1/s_validity", methods=["POST", "OPTIONS"])
 def validity():
     # Check if the request is an OPTIONS request
     if request.method == "OPTIONS":
