@@ -1,6 +1,5 @@
 # Import the modules
 import flask
-import datetime
 import mysql.connector
 import recharge_callback
 from datetime import datetime, timedelta
@@ -42,8 +41,8 @@ def validity():
     )
     cursor = connection.cursor(dictionary=True)
 
-    sql = "SELECT expiration_date FROM account USE INDEX (access_key_expiration_date) WHERE expiration_date > %s AND access_key = %s"
-    val = (datetime.datetime.now(), access_key)
+    sql = "SELECT expiration_date FROM account USE INDEX (access_key_expiration_date) WHERE expiration_date > NOW() AND access_key = %s"
+    val = (access_key)
     cursor.execute(sql, val)
 
 

@@ -6,12 +6,12 @@ CREATE TABLE account (
   recharge_amount decimal(10,2) DEFAULT 0.00,
   expiration_date datetime DEFAULT CURRENT_TIMESTAMP,
   last_login_time datetime,
+  chat_count int NOT NULL DEFAULT 0,
   client_reference_id int,
   email varchar(80),
   phone varchar(80),
   reserved_1 varchar(80),
   reserved_2 varchar(80),
-  chat_count int NOT NULL DEFAULT 0,
   INDEX access_key_expiration_date (access_key, expiration_date),
   INDEX access_key (access_key)
 );
