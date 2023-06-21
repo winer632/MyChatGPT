@@ -45,14 +45,8 @@ def auth():
     val = (access_key,)
     cursor.execute(sql, val)
 
-
     # Fetch the result
     row = cursor.fetchone()
-    # Commit the changes to the database and close the cursor and connection objects
-    connection.commit()
-    cursor.close()
-    connection.close()
-
     # Check if there are any rows in the result set
     if row is not None:
         # update chat_count
@@ -60,6 +54,11 @@ def auth():
         sql = "UPDATE account SET chat_count = %s WHERE access_key = %s AND expiration_date > NOW()"
         val = (chat_count, access_key,)
         cursor.execute(sql, val)
+
+        # Commit the changes to the database and close the cursor and connection objects
+        connection.commit()
+        cursor.close()
+        connection.close()
 
         expiration_date = row["expiration_date"]
         # Create a response object
