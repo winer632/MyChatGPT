@@ -28,6 +28,10 @@ CREATE TABLE product (
 );
 
 
+CREATE TABLE settings (
+  chat_count_setting INT DEFAULT 50
+);
+
 # cny, hkd, usd, eur have fractions or cents, so you need to multiply the amount by 100 when using them with Stripe. 
 # For example, if you want to charge 10 CNY, you need to set the amount to 1000.
 # 4 CNY for 15 minutes, 20 CNY for 1 month, 200 CNY for 1 year
@@ -43,3 +47,6 @@ INSERT INTO product (product_id, business_type, subscription_type, unit_fee, uni
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DlrcVr01dqOX", "basic_chat", "trial", 500, 604800);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22ExVNaXKhT9F", "basic_chat", "per_month", 1000, 2592000);
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22Dzh2L54hASR", "basic_chat", "per_year", 6000, 31536000);
+
+
+INSERT INTO settings (chat_count_setting) VALUES (50);
