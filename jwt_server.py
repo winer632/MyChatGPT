@@ -31,7 +31,6 @@ def auth():
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload["access_key"]
-    print("[/v1/auth] access_key is ", access_key)
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
@@ -49,7 +48,7 @@ def auth():
     row = cursor.fetchone()
     # Check if there are any rows in the result set
     if row is not None:
-        print("[/v1/auth] access_key is ", access_key, "auth success")
+        print("[/v1/auth] access_key is ", access_key, " auth success")
         # update chat_count
         chat_count = row["chat_count"]+1
         sql = "UPDATE account SET chat_count = %s WHERE access_key = %s AND expiration_date > NOW()"
@@ -71,7 +70,7 @@ def auth():
         # Return the response object
         return response
     else:
-        print("[/v1/auth] access_key is ", access_key, "auth success")
+        print("[/v1/auth] access_key is ", access_key, " auth fail")
         # Create a response object
         response = flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
         # Set the CORS headers
@@ -132,7 +131,6 @@ def validity():
     # Get the payload as a JSON object
     payload = request.get_json()
     access_key = payload["access_key"]
-    print("[/v1/validity] access_key is ", access_key)
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
@@ -156,6 +154,7 @@ def validity():
 
     # Check if there are any rows in the result set
     if row is not None:
+        print("[/v1/auth] access_key is ", access_key, " auth success")
         expiration_date = row["expiration_date"]
         # Create a response object
         response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
@@ -166,6 +165,7 @@ def validity():
         # Return the response object
         return response
     else:
+        print("[/v1/auth] access_key is ", access_key, " auth fail")
         # Create a response object
         response = flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
         # Set the CORS headers
