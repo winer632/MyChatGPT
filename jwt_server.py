@@ -257,7 +257,7 @@ def chatcount():
         chat_count = row["chat_count"]
         available_number = chat_count_setting - chat_count
         # Create a response object
-        response = flask.jsonify({"validation":"success", "message": available_number+" more messages can be sent today"})
+        response = flask.jsonify({"validation": "success", "message": str(available_number) + " more messages can be sent today"})
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
