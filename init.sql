@@ -1,17 +1,21 @@
 CREATE TABLE account (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  product_id VARCHAR(80) DEFAULT NULL,
-  business_type VARCHAR(80) DEFAULT NULL,
-  access_key VARCHAR(255) DEFAULT NULL,
-  recharge_amount DECIMAL(10,2) DEFAULT 0,
-  expiration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  last_login_time DATETIME DEFAULT NULL,
-  client_reference_id INT DEFAULT NULL,
-  email VARCHAR(80) DEFAULT NULL,
-  phone VARCHAR(80) DEFAULT NULL,
-  reserved_1 VARCHAR(80) DEFAULT NULL,
-  reserved_2 VARCHAR(80) DEFAULT NULL
+  id int PRIMARY KEY AUTO_INCREMENT,
+  product_id varchar(80),
+  business_type varchar(80),
+  access_key varchar(255),
+  recharge_amount decimal(10,2) DEFAULT 0.00,
+  expiration_date datetime DEFAULT CURRENT_TIMESTAMP,
+  last_login_time datetime,
+  client_reference_id int,
+  email varchar(80),
+  phone varchar(80),
+  reserved_1 varchar(80),
+  reserved_2 varchar(80),
+  chat_count int NOT NULL DEFAULT 0,
+  INDEX access_key_expiration_date (access_key, expiration_date),
+  INDEX access_key (access_key)
 );
+
 
 
 CREATE TABLE product (
@@ -31,12 +35,12 @@ CREATE TABLE product (
 
 # product environment
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DnzwF8ZK5VJ0", "basic_chat", "trial", 400, 86400);
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fjN9tEctwBk9", "basic_chat", "trial", 1000, 604800);
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fjBZzo9dChqI", "basic_chat", "per_month", 2000, 2592000);
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fiOSsJRrZUjU", "basic_chat", "per_year", 20000, 31536000);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fjN9tEctwBk9", "basic_chat", "trial", 500, 604800);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fjBZzo9dChqI", "basic_chat", "per_month", 1000, 2592000);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O1fiOSsJRrZUjU", "basic_chat", "per_year", 6000, 31536000);
 
 # test environment
 INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DmW5dfkzy20h", "basic_chat", "trial", 400, 86400);
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DlrcVr01dqOX", "basic_chat", "trial", 1000, 604800);
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22ExVNaXKhT9F", "basic_chat", "per_month", 2000, 2592000);
-INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22Dzh2L54hASR", "basic_chat", "per_year", 20000, 31536000);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O2DlrcVr01dqOX", "basic_chat", "trial", 500, 604800);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22ExVNaXKhT9F", "basic_chat", "per_month", 1000, 2592000);
+INSERT INTO product (product_id, business_type, subscription_type, unit_fee, unit_validity_time) VALUES ("prod_O22Dzh2L54hASR", "basic_chat", "per_year", 6000, 31536000);
