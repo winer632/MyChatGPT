@@ -49,6 +49,7 @@ def auth():
     row = cursor.fetchone()
     # Check if there are any rows in the result set
     if row is not None:
+        print("[/v1/auth] access_key is ", access_key, "auth success")
         # update chat_count
         chat_count = row["chat_count"]+1
         sql = "UPDATE account SET chat_count = %s WHERE access_key = %s AND expiration_date > NOW()"
@@ -70,6 +71,7 @@ def auth():
         # Return the response object
         return response
     else:
+        print("[/v1/auth] access_key is ", access_key, "auth success")
         # Create a response object
         response = flask.jsonify({"validation": "fail", "message": "No valid subscription found"})
         # Set the CORS headers
