@@ -18,3 +18,8 @@ sudo gunicorn -w 5 -b 0.0.0.0:443 --certfile openssl/ssl-bundle.crt --keyfile op
 # production
 /usr/bin/sudo /usr/local/bin/gunicorn -w 5 -b 0.0.0.0:443 --pid /var/run/gunicorn.pid --name myapp --chdir /home/azureuser/gpt/MyChatGPT --certfile /home/azureuser/gpt/MyChatGPT/openssl/ssl-bundle.crt --keyfile /home/azureuser/gpt/MyChatGPT/openssl/service.bizoe.tech.key jwt_server:app
 
+
+# crontab 
+# Note that Azure virtual machines with Ubuntu OS, which are located in the US, default to UTC timezone, and crontab uses UTC timezone too. So 19:00 UTC equals 03:00 AM in Shanghai.
+
+0 19 * * * /usr/bin/python3 /home/azureuser/gpt/MyChatGPT/reset_chat_count.py >> /home/azureuser/gpt/MyChatGPT/crontest.log 2>&1
