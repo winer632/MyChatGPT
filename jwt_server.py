@@ -55,7 +55,9 @@ def auth():
 
     # Get the payload as a JSON object
     payload = request.get_json()
+    print(payload)
     access_key = payload["access_key"]
+    model = payload["model"]
     # Create connection and cursor objects
     connection = mysql.connector.connect(
         host="localhost",
@@ -86,7 +88,12 @@ def auth():
             # Return the response object
             return response
         # update chat_count
-        chat_count = row["chat_count"]+1
+        if (model.startsWith("gpt-4")):
+            print("usig gpt-4, chat_count before is ", chat_count)
+            chat_count = row["chat_count"]+10
+            print("usig gpt-4, chat_count now is ", chat_count)
+        else:
+            chat_count = row["chat_count"]+1
         sql = "UPDATE account SET chat_count = %s WHERE access_key = %s AND expiration_date > NOW()"
         val = (chat_count, access_key,)
         cursor.execute(sql, val)
