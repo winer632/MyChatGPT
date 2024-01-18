@@ -1,6 +1,6 @@
 # Import the modules
 import flask
-import mysql.connector
+import sqlite3
 import recharge_callback
 from datetime import datetime, timedelta
 from flask import Flask, jsonify, request
@@ -11,12 +11,9 @@ from werkzeug.utils import secure_filename
 # default value is 60
 chat_count_setting = 60
 
-connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="123456",
-    database="gpt"
-)
+sqlite_file = 'ChatGPT.db'
+
+connection = sqlite3.connect(sqlite_file)
 cursor = connection.cursor(dictionary=True)
 
 sql = "SELECT chat_count_setting FROM settings"
@@ -59,12 +56,7 @@ def auth():
     access_key = payload["access_key"]
     model = payload["model"]
     # Create connection and cursor objects
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="123456",
-        database="gpt"
-    )
+    connection = sqlite3.connect(sqlite_file)
     cursor = connection.cursor(dictionary=True)
 
     sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
@@ -175,12 +167,7 @@ def validity():
     payload = request.get_json()
     access_key = payload["access_key"]
     # Create connection and cursor objects
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="123456",
-        database="gpt"
-    )
+    connection = sqlite3.connect(sqlite_file)
     cursor = connection.cursor(dictionary=True)
 
     sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
@@ -239,12 +226,7 @@ def chatcount():
     payload = request.get_json()
     access_key = payload["access_key"]
     # Create connection and cursor objects
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="123456",
-        database="gpt"
-    )
+    connection = sqlite3.connect(sqlite_file)
     cursor = connection.cursor(dictionary=True)
 
     sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"

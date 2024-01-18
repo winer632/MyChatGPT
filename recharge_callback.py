@@ -1,25 +1,20 @@
 # Import modules
-import mysql.connector
+import sqlite3
 import secrets
 import base64
 from datetime import datetime, timedelta
 
-
+sqlite_file = 'ChatGPT.db'
 
 # Define a function that takes the recharge amount as an argument
 def recharge_callback_func(access_key, amount, product_id):
-    # Create connection and cursor objects
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="123456",
-        database="gpt"
-    )
-    # create a cursor with dictionary argument
-    cursor = connection.cursor(dictionary=True)
+    # Create connection object
+    connection = sqlite3.connect(sqlite_file)
+    connection.row_factory = sqlite3.Row  # This will allow us to access rows as dictionaries
+    cursor = connection.cursor()
 
     # Select the unit_fee column from the table
-    sql = "SELECT business_type, subscription_type, unit_fee, unit_validity_time FROM product where product_id = %s"
+    sql = "SELECT business_type, subscription_type, unit_fee, unit_validity_time FROM product WHERE product_id = ?"
     val = (product_id,)
     cursor.execute(sql, val)
 
@@ -39,19 +34,13 @@ def recharge_callback_func(access_key, amount, product_id):
         print("No row found")
         return
     add_validity_time = (amount/unit_fee)*unit_validity_time
-    print(type(add_validity_time))
-    # convert it to an integer or float value
     add_validity_time = float(add_validity_time)
-    print(type(add_validity_time))
     print("add_validity_time is ", add_validity_time)
-        
-
 
     # Select the access_key column from the table
-    sql = "SELECT access_key FROM account where access_key = %s"
+    sql = "SELECT access_key FROM account WHERE access_key = ?"
     val = (access_key,)
     cursor.execute(sql, val)
-    # fetch all rows
     row = cursor.fetchone()
     if row is not None:
         access_key = row["access_key"]
@@ -60,19 +49,16 @@ def recharge_callback_func(access_key, amount, product_id):
         print("access_key does not exist")
         # Calculate the expiration date by adding the validity period to the current date and time
         expiration_date = datetime.now() + timedelta(seconds=add_validity_time)
-        print("product_id is ", product_id)
-        print("business_type is ", business_type)
-        print("access_key is ", access_key)
-        print("amount is ", amount)
-        print("expiration_date is ", expiration_date)
-        print("last_login_time is ", datetime.now())
         # Insert a new record into the table with the generated API key, recharge amount, expiration date, and last login time
         sql = "INSERT INTO account (product_id, business_type, access_key, recharge_amount, expiration_date, last_login_time) \
-             VALUES (%s, %s, %s, %s, %s, %s)"
-        val = (product_id, business_type, access_key, amount, expiration_date, datetime.now(),)
+             VALUES (?, ?, ?, ?, ?, ?)"
+        val = (product_id, business_type, access_key, amount, expiration_date, datetime.now())
         cursor.execute(sql, val)
 
     # Commit the changes to the database and close the cursor and connection objects
     connection.commit()
     cursor.close()
     connection.close()
+
+# Call the function with example data
+recharge_callback_func('example_access_key', 100, 'example_product_id')
