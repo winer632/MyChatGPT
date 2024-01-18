@@ -14,7 +14,7 @@ chat_count_setting = 60
 sqlite_file = 'ChatGPT.db'
 
 connection = sqlite3.connect(sqlite_file)
-cursor = connection.cursor(dictionary=True)
+cursor = connection.cursor()
 
 sql = "SELECT chat_count_setting FROM settings"
 
@@ -22,6 +22,8 @@ cursor.execute(sql)
 row = cursor.fetchone()
 # Check if there are any rows in the result set
 if row is not None:
+    # Convert the row to a dictionary
+    row = {description[0]: value for description, value in zip(cursor.description, row)}
     chat_count_setting = row["chat_count_setting"]
     print("[settings] chat_count_setting is ", chat_count_setting)
 
@@ -57,7 +59,7 @@ def auth():
     model = payload["model"]
     # Create connection and cursor objects
     connection = sqlite3.connect(sqlite_file)
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
     val = (access_key,)
@@ -68,6 +70,8 @@ def auth():
     # Check if there are any rows in the result set
     if row is not None:
         print("[/v1/auth] access_key is ", access_key, " auth success")
+        # Convert the row to a dictionary
+        row = {description[0]: value for description, value in zip(cursor.description, row)}
         chat_count = row["chat_count"]
         if chat_count > chat_count_setting:
             print("[/v1/auth] No quota today. chat_count is ", chat_count, " chat_count_setting is ", chat_count_setting)
@@ -168,7 +172,7 @@ def validity():
     access_key = payload["access_key"]
     # Create connection and cursor objects
     connection = sqlite3.connect(sqlite_file)
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
     val = (access_key,)
@@ -185,6 +189,8 @@ def validity():
     # Check if there are any rows in the result set
     if row is not None:
         print("[/v1/validity] access_key is ", access_key, " validation success")
+        # Convert the row to a dictionary
+        row = {description[0]: value for description, value in zip(cursor.description, row)}
         expiration_date = row["expiration_date"]
         # Create a response object
         response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
@@ -227,7 +233,7 @@ def chatcount():
     access_key = payload["access_key"]
     # Create connection and cursor objects
     connection = sqlite3.connect(sqlite_file)
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor()
 
     sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
     val = (access_key,)
@@ -243,6 +249,8 @@ def chatcount():
 
     # Check if there are any rows in the result set
     if row is not None:
+        # Convert the row to a dictionary
+        row = {description[0]: value for description, value in zip(cursor.description, row)}
         chat_count = row["chat_count"]
         available_number = chat_count_setting - chat_count
         print("[/v1/chatcount] access_key is ", access_key, " validation success. ", available_number, " more messages can be sent today" )
