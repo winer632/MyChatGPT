@@ -61,7 +61,7 @@ def auth():
     connection = sqlite3.connect(sqlite_file)
     cursor = connection.cursor()
 
-    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
+    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = ? AND expiration_date > datetime('now')"
     val = (access_key,)
     cursor.execute(sql, val)
 
@@ -84,13 +84,15 @@ def auth():
             # Return the response object
             return response
         # update chat_count
-        if (model.startsWith("gpt-4")):
+        if (model.startswith("gpt-4")):
             print("usig gpt-4, chat_count before is ", chat_count)
             chat_count = row["chat_count"]+4
             print("usig gpt-4, chat_count now is ", chat_count)
         else:
+            print("usig gpt-3.5, chat_count before is ", chat_count)
             chat_count = row["chat_count"]+1
-        sql = "UPDATE account SET chat_count = %s WHERE access_key = %s AND expiration_date > NOW()"
+            print("usig gpt-3.5, chat_count now is ", chat_count)
+        sql = "UPDATE account SET chat_count = ? WHERE access_key = ? AND expiration_date > datetime('now')"
         val = (chat_count, access_key,)
         cursor.execute(sql, val)
 
@@ -101,7 +103,7 @@ def auth():
 
         expiration_date = row["expiration_date"]
         # Create a response object
-        response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
+        response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date})
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
@@ -174,7 +176,7 @@ def validity():
     connection = sqlite3.connect(sqlite_file)
     cursor = connection.cursor()
 
-    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
+    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = ? AND expiration_date > datetime('now')"
     val = (access_key,)
     cursor.execute(sql, val)
 
@@ -193,7 +195,7 @@ def validity():
         row = {description[0]: value for description, value in zip(cursor.description, row)}
         expiration_date = row["expiration_date"]
         # Create a response object
-        response = flask.jsonify({"validation":"success", "message":"valid until "+expiration_date.strftime("%Y-%m-%d %H:%M:%S")})
+        response = flask.jsonify({"validation":"success", "message":"valid until " + expiration_date})
         # Set the CORS headers
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, OPTIONS, DELETE"
@@ -235,7 +237,7 @@ def chatcount():
     connection = sqlite3.connect(sqlite_file)
     cursor = connection.cursor()
 
-    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = %s AND expiration_date > NOW()"
+    sql = "SELECT expiration_date, chat_count FROM account WHERE access_key = ? AND expiration_date > datetime('now')"
     val = (access_key,)
     cursor.execute(sql, val)
 
@@ -272,3 +274,6 @@ def chatcount():
         response.headers["Access-Control-Allow-Headers"] = "content-type"
         # Return the response object
         return response
+    
+# if __name__ == '__main__':
+#     app.run(debug=True, host='0.0.0.0', port=6666)
