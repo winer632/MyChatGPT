@@ -60,5 +60,3 @@ def recharge_callback_func(access_key, amount, product_id):
     cursor.close()
     connection.close()
 
-# Call the function with example data
-recharge_callback_func('example_access_key', 100, 'example_product_id')
