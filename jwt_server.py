@@ -86,7 +86,7 @@ def auth():
         # update chat_count
         if (model.startswith("gpt-4")):
             print("usig gpt-4, chat_count before is ", chat_count)
-            chat_count = row["chat_count"]+4
+            chat_count = row["chat_count"]+21
             print("usig gpt-4, chat_count now is ", chat_count)
         else:
             print("usig gpt-3.5, chat_count before is ", chat_count)
