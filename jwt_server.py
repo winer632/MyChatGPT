@@ -73,7 +73,7 @@ def auth():
         # Convert the row to a dictionary
         row = {description[0]: value for description, value in zip(cursor.description, row)}
         chat_count = row["chat_count"]
-        if chat_count > chat_count_setting:
+        if chat_count >= chat_count_setting:
             print("[/v1/auth] No quota today. chat_count is ", chat_count, " chat_count_setting is ", chat_count_setting)
             response = flask.jsonify({"validation": "insufficient quota", "message": "No quota today. You have sent "+str(chat_count)+
                                       " messages today. Your quota is "+str(chat_count_setting)+" messages per day"})
@@ -84,9 +84,13 @@ def auth():
             # Return the response object
             return response
         # update chat_count
-        if (model.startswith("gpt-4")):
+        if  (model.startswith("gpt-4o")):
+            print("usig gpt-4o, chat_count before is ", chat_count)
+            chat_count = row["chat_count"]+6
+            print("usig gpt-4o, chat_count now is ", chat_count)
+        elif (model.startswith("gpt-4-")):
             print("usig gpt-4, chat_count before is ", chat_count)
-            chat_count = row["chat_count"]+13
+            chat_count = row["chat_count"]+12
             print("usig gpt-4, chat_count now is ", chat_count)
         else:
             print("usig gpt-3.5, chat_count before is ", chat_count)
